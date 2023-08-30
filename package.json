@@ -1,0 +1,33 @@
+{
+  "name": "images-for-social-media",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@types/node": "20.5.7",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
+    "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
+    "theme-ui": "^0.16.1",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "eslint-plugin-adonis": "^2.1.1",
+    "eslint-plugin-sort-destructure-keys": "^1.5.0",
+    "husky": "^8.0.3"
+  }
+}
