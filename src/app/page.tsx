@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Box, Card, Image as TuiImage, Link, Paragraph, Text } from 'theme-ui'
 
-import pozoleTvFactsThumbnail from '~/components/images/pozole-tv-facts.png'
+import pozoleTvFactsThumbnail from '~/app/pozole-tv-facts/thumbnail.png'
 import { Page } from '~/components/page'
 
 const menuItems = [
