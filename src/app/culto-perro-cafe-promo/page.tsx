@@ -12,15 +12,16 @@ import {
   Grid,
   Paragraph,
   Input,
-  Select,
+  Select, Checkbox, Switch, Flex,
 } from 'theme-ui'
 
 import { Canvas } from '~/components/canvas'
 import { EditorLayout } from '~/components/editor-layout'
+import { useImageLoader } from '~/components/image-loader'
 import { Page } from '~/components/page'
 
 import { BackgroundComponent, Variant } from './background.component'
-import { green, orange, white, yellow } from './colors'
+import { black, green, orange, white, yellow } from './colors'
 import { BookIconComponent } from './img/book.component'
 import { IconSkullComponent } from './img/icon-skull.component'
 
@@ -37,19 +38,19 @@ const raleway = Raleway({
 interface Fields {
   variant: Variant
   icon: 'book' | 'heartSkull'
-  title: string
   header: string
   content: string
-  showLogo: boolean
+  bubble: string
+  isBubbleContentCompact: boolean
 }
 
 const defaultValues: Fields = {
   variant: 'green',
-  icon: 'book',
-  title: 'Información',
-  header: 'Line one\n\nLine two\n\nLine Three',
-  content: 'Bold is **supported**. _Italic_ too.',
-  showLogo: false,
+  icon: 'heartSkull',
+  header: 'Line one\n\nLine two',
+  content: '# Header\n\nBold is **supported**. _Italic_ too.',
+  bubble: '2x1',
+  isBubbleContentCompact: false,
 }
 
 const icons = {
@@ -62,49 +63,21 @@ export default function Home () {
 
   // Markdown directives for the header (the one with the lines)
   const headerComponents = useMemo<Components>(() => {
-    const boxOddBackground = fields.variant === 'orange' ? yellow : orange
-    const boxDecorationBackground = fields.variant === 'green' ? yellow : green
-
     return {
       p: (props) => (
-        <Paragraph sx={ {
-          ...styles.headerParagraph,
-          '&:nth-of-type(2)': {
-            backgroundColor: boxOddBackground,
-            top: '-2px',
-          },
-          '&:nth-of-type(3)': {
-            top: '-4px',
-          },
-          '&:after': {
-            content: '""',
-          },
-        } }>
+        <Paragraph sx={ styles.headerParagraph }>
           { props.children }
-          <Box
-            as="span"
-            sx={ {
-              ...styles.headerParagraphDecoration,
-              backgroundColor: boxDecorationBackground,
-            } }
-          >
-            <Box as="span" sx={ { ...styles.horizontalLine, top: '6px' } }/>
-            <Box as="span" sx={ { ...styles.horizontalLine, bottom: '4px' } }/>
-            <Box as="span" sx={ { ...styles.horizontalLine, bottom: '9px' } }/>
-          </Box>
         </Paragraph>
       ),
     }
-  }, [fields.variant])
+  }, [])
 
   // When a parameter is adjusted, we want to update the fields
   function onChange<T> (field: keyof Fields, value: T) {
-    let newValue: T = value
-
-    if (field === 'showLogo') {
-      setField({ ...fields, [field]: newValue as boolean })
+    if (field === 'isBubbleContentCompact') {
+      setField({ ...fields, [field]: value as boolean })
     } else {
-      setField({ ...fields, [field]: newValue as string })
+      setField({ ...fields, [field]: value as string })
     }
   }
 
@@ -134,13 +107,6 @@ export default function Home () {
         </Select>
       </Box>
       <Box>
-        <Label pb={ 2 }>Title:</Label>
-        <Input
-          value={ fields.title }
-          onChange={ (e) => onChange('title', e.target.value) }
-        />
-      </Box>
-      <Box>
         <Label pb={ 2 }>Heading:</Label>
         <Textarea
           value={ fields.header }
@@ -156,11 +122,25 @@ export default function Home () {
           onChange={ (e) => onChange('content', e.target.value) }
         />
       </Box>
+      <Box>
+        <Label pb={ 2 }>Bubble:</Label>
+        <Input
+          value={ fields.bubble }
+          onChange={ (e) => onChange('bubble', e.target.value) }
+        />
+      </Box>
+      <Box>
+        <Switch
+          label="Tweak bubble content"
+          checked={ fields.isBubbleContentCompact }
+          onChange={ (e) => onChange('isBubbleContentCompact', e.target.checked) }
+        />
+      </Box>
     </Grid>
   )
 
   return (
-    <Page title="Culto Perro Cafe - Info">
+    <Page title="Culto Perro Cafe - Promo">
       <EditorLayout
         editorBody={ editorRenderer() }
       >
@@ -171,12 +151,15 @@ export default function Home () {
           <Box sx={ styles.icon }>
             <Icon/>
           </Box>
-          <Text sx={ styles.title }>{ fields.title }</Text>
           <Box sx={ styles.header }>
             <ReactMarkdown components={ headerComponents }>
               { fields.header }
             </ReactMarkdown>
           </Box>
+          <Text sx={ {
+            ...styles.bubble,
+            right: fields.isBubbleContentCompact ? 72 : 84,
+          } }>{ fields.bubble }</Text>
           <Box sx={ styles.contentWrapper }>
             <ReactMarkdown components={ contentComponents }>
               { fields.content }
@@ -195,6 +178,9 @@ const contentComponents: Components = {
   ),
   strong: (props) => (
     <Text sx={ { ...styles.content, fontWeight: 700 } }>{ props.children }</Text>
+  ),
+  h1: (props) => (
+    <Text sx={ { ...styles.contentHeader } }>{ props.children }</Text>
   ),
 }
 
@@ -219,34 +205,15 @@ const styles: Record<string, ThemeUIStyleObject> = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    position: 'absolute',
-    top: 64,
-    left: 128,
-    fontSize: '19px',
-    fontWeight: 900,
-    color: 'white',
-    textTransform: 'uppercase',
-    fontFamily: raleway.style.fontFamily,
-    zIndex: 1,
-    letterSpacing: '1px',
-  },
-  horizontalLine: {
-    position: 'absolute',
-    right: 0,
-    height: '2.2px',
-    width: '100%',
-    zIndex: -1,
-    backgroundColor: '#222',
-  },
   header: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     position: 'absolute',
-    top: 94,
-    left: 60,
+    top: 174,
+    left: 106,
     zIndex: 10,
+    gap: 2,
   },
   headerParagraph: {
     color: '#222',
@@ -255,30 +222,15 @@ const styles: Record<string, ThemeUIStyleObject> = {
     lineHeight: 1,
     textTransform: 'uppercase',
     fontWeight: 700,
-    backgroundColor: white,
-    border: '2.2px solid #222',
-    padding: '8px 20px 11px',
-    borderRadius: '8px',
     letterSpacing: '-0.5px',
     position: 'relative',
-  },
-  headerParagraphDecoration: {
-    border: '2.2px solid #222',
-    borderRadius: '8px',
-    position: 'absolute',
-    top: '-2px',
-    right: '-20px',
-    height: 'calc(100% + 4px)',
-    width: '32px',
-    zIndex: -1,
-    content: '""',
   },
   contentWrapper: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     position: 'absolute',
-    top: '66%',
-    left: '17.5%',
+    top: '345px',
+    left: '75px',
     display: 'flex',
     width: '64%',
     height: '100%',
@@ -286,10 +238,28 @@ const styles: Record<string, ThemeUIStyleObject> = {
     zIndex: 4,
   },
   content: {
-    color: '#222',
+    color: black,
     fontFamily: raleway.style.fontFamily,
     lineHeight: 1.2,
     letterSpacing: '0.4px',
     fontSize: '14px',
+  },
+  contentHeader: {
+    textTransform: 'uppercase',
+    fontWeight: 700,
+    borderBottom: '2px solid #222',
+    width: 'fit-content',
+    pb: '2px',
+    mb: '4px',
+  },
+  bubble: {
+    position: 'absolute',
+    bottom: 142,
+    fontSize: '36px',
+    fontWeight: 900,
+    color: black,
+    fontFamily: oswald.style.fontFamily,
+    zIndex: 1,
+    letterSpacing: '2px',
   },
 }

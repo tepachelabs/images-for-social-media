@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Card, Flex, Image as TuiImage, Link, Paragraph, Text } from 'theme-ui'
 
 import cpcInfoThumbnail from '~/app/culto-perro-cafe-info/thumbnail.png'
+import cpcPromoThumbnail from '~/app/culto-perro-cafe-promo/thumbnail.png'
 import pozoleTvFactsThumbnail from '~/app/pozole-tv-facts/thumbnail.png'
 import { Page } from '~/components/page'
 
@@ -17,6 +18,11 @@ const menuItems = [
     title: 'CPC Info',
     href: '/culto-perro-cafe-info',
     thumbnail: cpcInfoThumbnail,
+  },
+  {
+    title: 'CPC Promo',
+    href: '/culto-perro-cafe-promo',
+    thumbnail: cpcPromoThumbnail,
   },
 ]
 
