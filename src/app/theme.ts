@@ -1,6 +1,9 @@
 import type { Theme } from 'theme-ui'
 
 export const theme: Theme = {
+  config: {
+    useColorSchemeMediaQuery: 'system',
+  },
   fonts: {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
@@ -10,6 +13,12 @@ export const theme: Theme = {
     text: '#000',
     background: '#fff',
     primary: '#33e',
+    modes: {
+      dark: {
+        text: '#ccc',
+        background: '#222',
+      },
+    },
   },
   cards: {
     primary: {

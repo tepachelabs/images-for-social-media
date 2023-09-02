@@ -15,15 +15,15 @@ import {
   Select,
 } from 'theme-ui'
 
-import { BackgroundComponent, Variant } from '~/app/culto-perro-cafe-info/background.component'
-import { BookIconComponent } from '~/app/culto-perro-cafe-info/img/book.component'
-import { IconSkullComponent } from '~/app/culto-perro-cafe-info/img/icon-skull.component'
 import { Canvas } from '~/components/canvas'
-import { EditorLayout } from '~/components/editor-layout/editor-layout.component'
+import { EditorLayout } from '~/components/editor-layout'
 import { useImageLoader } from '~/components/image-loader'
 import { Page } from '~/components/page'
 
+import { BackgroundComponent, Variant } from './background.component'
 import { green, orange, white, yellow } from './colors'
+import { BookIconComponent } from './img/book.component'
+import { IconSkullComponent } from './img/icon-skull.component'
 
 const oswald = Oswald({
   subsets: ['latin'],
@@ -294,6 +294,7 @@ const styles: Record<string, ThemeUIStyleObject> = {
     zIndex: 4,
   },
   content: {
+    color: '#222',
     fontFamily: raleway.style.fontFamily,
     lineHeight: 1.2,
     letterSpacing: '0.4px',

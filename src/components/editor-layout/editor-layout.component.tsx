@@ -27,7 +27,7 @@ const styles: Record<string, ThemeUIStyleObject> = {
     width: '100%',
   },
   editor: {
-    backgroundColor: 'white',
+    backgroundColor: 'background',
     borderRadius: 5,
     flex: 1,
     p: 4,

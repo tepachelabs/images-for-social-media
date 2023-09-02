@@ -12,13 +12,12 @@ import {
   Label,
   Textarea,
   Grid,
-  Paragraph,
   Slider,
-  Input, Checkbox, Switch,
+  Switch,
 } from 'theme-ui'
 
 import { Canvas } from '~/components/canvas'
-import { EditorLayout } from '~/components/editor-layout/editor-layout.component'
+import { EditorLayout } from '~/components/editor-layout'
 import { useImageLoader } from '~/components/image-loader'
 import { Page } from '~/components/page'
 
@@ -59,6 +58,7 @@ export default function Home () {
   // Markdown directives
   const components = useMemo<Components>(() => {
     const commonStyles = {
+      color: '#212322',
       fontWeight: 800, // hardcoded by style
       fontSize: fields.fontSize,
       lineHeight: fields.lineHeight,
