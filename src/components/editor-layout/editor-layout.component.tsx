@@ -1,43 +1,45 @@
 import { FC, ReactNode } from 'react'
-import { Box, ThemeUIStyleObject } from 'theme-ui'
+import { Box, Flex, Text, ThemeUIStyleObject } from 'theme-ui'
 
 interface Props {
-  elements: Element[],
-  children?: React.ReactNode
+  children: ReactNode
+  editorBody: ReactNode,
 }
 
-interface Element {
-  id: string,
-  Component: ReactNode,
-}
-
-export const EditorLayout: FC<Props> = ({ children, elements }) => {
+export const EditorLayout: FC<Props> = ({ children, editorBody }) => {
   return (
-    <Box sx={ styles.frame }>
-      { elements.map((element) => (
-        <Box key={ element.id } sx={ styles.side }>
-          { element.Component }
-        </Box>
-      )) }
-
-      { children }
-    </Box>
+    <Flex sx={ styles.frame }>
+      <Box sx={ styles.editor }>
+        { editorBody }
+      </Box>
+      <Box sx={ styles.preview }>
+        { children }
+        <Text sx={ styles.caption }>* Click to generate the image and download it.</Text>
+      </Box>
+    </Flex>
   )
 }
 
 const styles: Record<string, ThemeUIStyleObject> = {
   frame: {
-    display: 'flex',
+    flexDirection: ['column', 'column', 'row'],
     gap: 4,
     width: '100%',
   },
-  side: {
-    alignItems: 'flex-start',
+  editor: {
     backgroundColor: 'white',
-    border: '1px solid',
-    borderColor: 'rgba(45, 45, 45, 0.45)',
+    borderRadius: 5,
+    flex: 1,
+    p: 4,
+  },
+  preview: {
+    alignItems: 'flex-start',
     position: 'relative',
     aspectRatio: 1,
-    width: '50%',
+    width: 500,
+  },
+  caption: {
+    display: 'block',
+    pt: 2,
   },
 }

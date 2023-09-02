@@ -96,47 +96,6 @@ export default function Home () {
     }
   }
 
-  // The canvas. All imagery goes here
-  const canvasRenderer = () => (
-    <Canvas>
-      { image && (
-        <TuiImage
-          sx={ styles.overlapped }
-          as={ Image }
-          src={ image }
-          width={ 500 }
-          height={ 500 }
-          alt="frame"
-        />
-      ) }
-      { fields.showText && (
-        <TuiImage
-          sx={ styles.overlapped }
-          as={ Image }
-          src={ background as any }
-          width="100%"
-          height="100%"
-          alt="background"
-        />
-      ) }
-      <TuiImage
-        sx={ styles.overlapped }
-        as={ Image }
-        src={ frame as any }
-        width="100%"
-        height="100%"
-        alt="frame"
-      />
-      { fields.showText && (
-        <Box sx={ styles.floating }>
-          <ReactMarkdown components={ components }>
-            { fields.text }
-          </ReactMarkdown>
-        </Box>
-      ) }
-    </Canvas>
-  )
-
   // The editor. All inputs go here
   const editorRenderer = () => (
     <Grid sx={ styles.editor }>
@@ -203,11 +162,46 @@ export default function Home () {
   return (
     <Page title="PozoleTV facts">
       <EditorLayout
-        elements={ [
-          { id: 'canvas', Component: canvasRenderer() },
-          { id: 'editor', Component: editorRenderer() },
-        ] }
-      />
+        editorBody={ editorRenderer() }
+      >
+        <Canvas>
+          { image && (
+            <TuiImage
+              sx={ styles.overlapped }
+              as={ Image }
+              src={ image }
+              width={ 500 }
+              height={ 500 }
+              alt="frame"
+            />
+          ) }
+          { fields.showText && (
+            <TuiImage
+              sx={ styles.overlapped }
+              as={ Image }
+              src={ background as any }
+              width="100%"
+              height="100%"
+              alt="background"
+            />
+          ) }
+          <TuiImage
+            sx={ styles.overlapped }
+            as={ Image }
+            src={ frame as any }
+            width="100%"
+            height="100%"
+            alt="frame"
+          />
+          { fields.showText && (
+            <Box sx={ styles.floating }>
+              <ReactMarkdown components={ components }>
+                { fields.text }
+              </ReactMarkdown>
+            </Box>
+          ) }
+        </Canvas>
+      </EditorLayout>
     </Page>
   )
 }
@@ -215,7 +209,6 @@ export default function Home () {
 const styles: Record<string, ThemeUIStyleObject> = {
   editor: {
     gap: 3,
-    p: 4,
   },
   overlapped: {
     position: 'absolute',

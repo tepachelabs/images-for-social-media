@@ -1,8 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { Box, Card, Image as TuiImage, Link, Paragraph, Text } from 'theme-ui'
+import { Card, Flex, Image as TuiImage, Link, Paragraph, Text } from 'theme-ui'
 
+import cpcInfoThumbnail from '~/app/culto-perro-cafe-info/thumbnail.png'
 import pozoleTvFactsThumbnail from '~/app/pozole-tv-facts/thumbnail.png'
 import { Page } from '~/components/page'
 
@@ -11,6 +12,11 @@ const menuItems = [
     title: 'PozoleTV Facts',
     href: '/pozole-tv-facts',
     thumbnail: pozoleTvFactsThumbnail,
+  },
+  {
+    title: 'CPC Info',
+    href: '/culto-perro-cafe-info',
+    thumbnail: cpcInfoThumbnail,
   },
 ]
 
@@ -21,9 +27,9 @@ export default function Home () {
         Select one of the templates available:
       </Paragraph>
 
-      <Box>
+      <Flex sx={ { gap: 4 } }>
         { menuItems.map((item) => (
-          <Link href="/pozole-tv-facts" key={ item.href }>
+          <Link href={ item.href } key={ item.href }>
             <Card>
               <TuiImage
                 as={ Image }
@@ -32,11 +38,11 @@ export default function Home () {
                 height={ 180 }
                 alt="frame"
               />
-              <Text>{item.title}</Text>
+              <Text>{ item.title }</Text>
             </Card>
           </Link>
         )) }
-      </Box>
+      </Flex>
     </Page>
   )
 }

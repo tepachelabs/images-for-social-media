@@ -5,9 +5,12 @@ import { Box, Button, Card, Heading, ThemeUIStyleObject } from 'theme-ui'
 
 interface Props {
   children?: React.ReactNode
+  debug?: boolean
 }
 
-export const Canvas: FC<Props> = ({ children }) => {
+const canvasSize = 500
+
+export const Canvas: FC<Props> = ({ children, debug }) => {
   const canvas = useRef<HTMLDivElement>(null)
 
   function onClick () {
@@ -15,16 +18,20 @@ export const Canvas: FC<Props> = ({ children }) => {
       return
     }
 
-    html2canvas(canvas.current)
-      .then(function (canvas) {
+    html2canvas(canvas.current, {
+      windowWidth: canvasSize * 2,
+      windowHeight: canvasSize * 2,
+      scale: 8,
+    }).then(canvas => {
+      if (debug) {
+        document.body.appendChild(canvas)
+      } else {
         const link = document.createElement('a')
         link.download = 'my-image-name.png'
         link.href = canvas.toDataURL()
         link.click()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      }
+    })
   }
 
   return (
@@ -36,9 +43,9 @@ export const Canvas: FC<Props> = ({ children }) => {
 
 const styles: Record<string, ThemeUIStyleObject> = {
   canvas: {
-    backgroundColor: 'white',
-    height: '100%',
-    width: '100%',
+    height: canvasSize,
+    width: canvasSize,
+    margin: '0 auto',
     position: 'relative',
     overflow: 'hidden',
   },
