@@ -166,13 +166,13 @@ export default function Home () {
       >
         <Canvas>
           { image && (
-            <TuiImage
-              sx={ styles.overlapped }
-              as={ Image }
-              src={ image }
-              width={ 500 }
-              height={ 500 }
-              alt="frame"
+            <Box
+              sx={{
+                ...styles.overlapped,
+                height: '100%',
+                backgroundImage: `url(${ image })`,
+                backgroundSize: 'cover',
+              }}
             />
           ) }
           { fields.showText && (

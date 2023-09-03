@@ -21,7 +21,7 @@ export const Canvas: FC<Props> = ({ children, debug }) => {
     html2canvas(canvas.current, {
       windowWidth: canvasSize * 2,
       windowHeight: canvasSize * 2,
-      scale: 8,
+      scale: 4,
     }).then(canvas => {
       if (debug) {
         document.body.appendChild(canvas)
